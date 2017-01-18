@@ -12,6 +12,7 @@ my $client = Iamport::REST::Client->new( key => $key, secret => $secret );
 unless ($client) {
     diag "not found IAMPORT_API_KEY and IAMPORT_API_SECRET";
     done_testing;
+    exit;
 }
 
 ok( $client,        'new' );
