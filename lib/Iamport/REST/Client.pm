@@ -58,8 +58,11 @@ sub token {
     my $self = shift;
 
     my $url = "$IAMPORT_HOST/users/getToken";
-    my $res = $self->http->post_form( $url, { imp_key => $self->key, imp_secret => $self->secret } );
-    die "$res->{status}: $res->{reason}" unless $res->{success};
+    my $res = $self->{http}->post_form( $url, { imp_key => $self->{key}, imp_secret => $self->{secret} } );
+    unless ( $res->{success} ) {
+        warn "$res->{status}: $res->{reason}";
+        return;
+    }
 
     my $hashref = decode_json( $res->{content} );
     return $hashref->{response}{access_token};
@@ -430,7 +433,7 @@ sub get {
     my ( $self, $url ) = @_;
     return unless $url;
 
-    my $res = $self->http->get( $url, { headers => { Authorization => $self->token } } );
+    my $res = $self->{http}->get( $url, { headers => { Authorization => $self->token } } );
     unless ( $res->{success} ) {
         warn "$res->{status}: $res->{reason}";
         return;
@@ -449,7 +452,7 @@ sub post {
     my ( $self, $url, $body ) = @_;
     return unless $url;
 
-    my $res = $self->http->post_form( $url, $body, { headers => { Authorization => $self->token } } );
+    my $res = $self->{http}->post_form( $url, $body, { headers => { Authorization => $self->token } } );
 
     unless ( $res->{success} ) {
         warn "$res->{status}: $res->{reason}";
