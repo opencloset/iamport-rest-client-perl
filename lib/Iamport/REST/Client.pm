@@ -57,6 +57,8 @@ L<https://api.iamport.kr/#!/authenticate/getToken>
 sub token {
     my $self = shift;
 
+    return $self->{token} if $self->{token};
+
     my $url = "$IAMPORT_HOST/users/getToken";
     my $res = $self->{http}->post_form( $url, { imp_key => $self->{key}, imp_secret => $self->{secret} } );
     unless ( $res->{success} ) {
@@ -65,7 +67,7 @@ sub token {
     }
 
     my $hashref = decode_json( $res->{content} );
-    return $hashref->{response}{access_token};
+    return $self->{token} = $hashref->{response}{access_token};
 }
 
 =head2 payments(\%opts)
