@@ -11,6 +11,7 @@ my $client = Iamport::REST::Client->new( key => $key, secret => $secret );
 
 unless ($client) {
     diag "not found IAMPORT_API_KEY and IAMPORT_API_SECRET";
+    ok(1); # prevent 'More than one plan found in TAP output'
     done_testing;
     exit;
 }
