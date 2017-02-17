@@ -1,3 +1,5 @@
+    - Fix payment cancel condition
+
 v0.0.3    Fri, 17 Feb 2017 14:28:28 +0900
     - Apply token expiration time
 

@@ -251,7 +251,7 @@ L<https://api.iamport.kr/#!/payments/cancelPayment>
 sub cancel {
     my ( $self, $opts ) = @_;
 
-    return unless ( !$opts->{imp_uid} && !$opts->{merchant_uid} );
+    return if ( !$opts->{imp_uid} && !$opts->{merchant_uid} );
 
     my $url = "$IAMPORT_HOST/payments/cancel";
     return $self->post( $url, $opts );
